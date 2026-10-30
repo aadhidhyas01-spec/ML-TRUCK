@@ -101,25 +101,36 @@ An end-to-end intelligent waste detection, navigation, and robotic arm sorting s
 
 ---
 
-## 💻 Clean Project Architecture & 1-Click Launchers
+## 💻 Launchers
 
-The root directory contains an interactive master launcher 
-un.bat plus 8 dedicated launchers ready to execute directly:
+Run these from the repository root on Windows:
 
-| Launcher | Target Script | Purpose |
-|:---|:---|:---|
-| **
-un.bat** | *Interactive Master Console* | Unified interactive CLI launcher menu (1-9 or Q). |
-| **1_Start_Mission_Control.bat** | src/mission_control_server.py | Web telemetry dashboard & live camera HUD (http://localhost:8000). |
-| **2_Test_Laptop_Webcam.bat** | 	ests/test_manual_ml_cam.py --source 0 | Live webcam AI test with dual-bin classification HUD. |
-| **3_Test_ESP32_CAM.bat** | 	ests/test_manual_ml_cam.py | Wireless ESP32-CAM AI HUD (streams from http://<CAM_IP>:81/stream). |
-| **4_Run_Smart_Waste_Robot.bat** | src/robot_wireless_controller.py | Full autonomous loop: vision centering, approach, arm pickup & sorting. |
-| **5_Train_Deep_Model.bat** | scripts/train_deep_model.py | GPU YOLOv8m trainer with RTX 3050 hardware acceleration. |
-| **6_Test_DevKit_Hardware.bat** | 	ests/test_devkit_control.py | Hardware test for DC drive motors and 6-DOF robotic arm servos via UDP. |
-| **7_Test_Model_Accuracy.bat** | 	ests/test_accuracy_live.py | Full validation accuracy benchmark & confusion matrix generator. |
-| **8_Import_Roboflow_Dataset.bat** | scripts/prepare_banana_peel_dataset.py | Drag-and-drop Roboflow ZIP/folder importer for banana peel data. |
+| Launcher | Purpose |
+|---|---|
+| `run.bat` | Interactive launcher menu |
+| `1_Start_Mission_Control.bat` | Mission-control dashboard and telemetry |
+| `2_Test_Laptop_Webcam.bat` | Test detection with the laptop webcam |
+| `3_Test_ESP32_CAM.bat` | Test detection with the ESP32-CAM stream |
+| `4_Run_Smart_Waste_Robot.bat` | Run the wireless robot controller |
+| `5_Train_Deep_Model.bat` | Train the YOLO model |
+| `6_Test_DevKit_Hardware.bat` | Test motors and robotic-arm hardware |
+| `7_Test_Model_Accuracy.bat` | Run the model evaluation script |
+| `8_Import_Roboflow_Dataset.bat` | Prepare/import a Roboflow dataset |
 
----
+For direct Python execution, use paths relative to the repository root, for example:
+```powershell
+python src\robot_wireless_controller.py --dry-run
+python src\main.py --mode predict --source dataset\valid\images
+```
+
+### Network configuration
+
+The robot controller accepts `--source` and `--esp-ip` command-line options. The default fallback camera and DevKit addresses can also be overridden using environment variables:
+
+- `ESP32_CAM_STREAM_URL` — full MJPEG stream URL, e.g. `http://192.168.1.50:81/stream`
+- `ESP32_DEVKIT_IP` — ESP32 DevKit IP for UDP control
+
+Update these values to match the current hotspot/router. Do not assume that a previously used LAN address remains valid.
 
 ## 📁 Modular Directory Architecture
 
