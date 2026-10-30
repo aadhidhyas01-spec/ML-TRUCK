@@ -29,8 +29,10 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent if SCRIPT_DIR.name == "src" else SCRIPT_DIR
 ROOT_DIR = PROJECT_ROOT
 
-ESP32_CAM_STREAM_URL = "http://192.168.137.199:81/stream"  # CAM Module at .199
-ESP32_DEVKIT_IP      = "192.168.137.91"                    # DevKit at .91
+ESP32_CAM_STREAM_URL = os.environ.get(
+    "ESP32_CAM_STREAM_URL", "http://192.168.137.199:81/stream"
+)
+ESP32_DEVKIT_IP = os.environ.get("ESP32_DEVKIT_IP", "192.168.137.91")
 ESP32_DEVKIT_PORT    = 8888
 DEFAULT_WEIGHTS_PATH = str(ROOT_DIR / "models" / "best_trash_yolov8m.pt")
 CONF_THRESHOLD       = 0.35
