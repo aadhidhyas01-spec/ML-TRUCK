@@ -1,0 +1,40 @@
+name: Python and dataset checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile Python source
+        run: python -m compileall -q src scripts tests
+      - name: Validate YOLO dataset configuration
+        run: |
+          python -m pip install pyyaml
+          python - <<'PY'
+          from pathlib import Path
+          import yaml
+
+          path = Path("dataset/data.yaml")
+          config = yaml.safe_load(path.read_text(encoding="utf-8"))
+          names = config.get("names", [])
+          assert config.get("nc") == len(names), (
+              f"nc={config.get('nc')} but {len(names)} class names were found"
+          )
+          assert len(names) == 12, f"Expected 12 classes, found {len(names)}"
+          assert names[10] == "cup"
+          assert names[11] == "banana peel"
+          print(f"Dataset configuration OK: {len(names)} classes")
+          PY
