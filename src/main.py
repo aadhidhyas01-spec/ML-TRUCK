@@ -1,7 +1,7 @@
 """
 YOLOv8 Trash Detection - Unified Pipeline (Train, Test/Predict, Validate, Webcam)
 ================================================================================
-Classes (10):
+Classes (12, from dataset/data.yaml):
   0: battery
   1: can
   2: cardboard
@@ -12,6 +12,8 @@ Classes (10):
   7: plastic bottle
   8: plastic bottle cap
   9: pop tab
+  10: cup
+  11: banana peel
 
 Usage examples:
   1. Train / Finetune:
